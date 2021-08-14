@@ -19,7 +19,6 @@ class DatabaseController {
     return databaseController;
   }
 
-  
   Future<Database> initializeDatabase() async {
     Directory directory = await getApplicationDocumentsDirectory();
     String path = directory.path + 'movies.db';
@@ -50,6 +49,20 @@ class DatabaseController {
   Future<int> insertMovie(Movie movie) async {
     Database db = await this.database;
     var result = await db.insert(movieTable, movie.toMap());
+    return result;
+  }
+
+  Future<int> updateMovie(Movie movie) async {
+    var db = await this.database;
+    Map<String, dynamic> row = {
+      colTitle: movie.title,
+      coldirector: movie.director,
+      colPosterPath: movie.posterPath,
+    };
+
+    int result =
+        await db.update(movieTable, row, where: '$colId = ?', whereArgs: [movie.id]);
+
     return result;
   }
 

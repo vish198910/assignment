@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:assignment/constants/constants.dart';
 import 'package:assignment/database/dbhelper.dart';
 import 'package:assignment/models/movie_model.dart';
 import 'package:assignment/utilities/poster_utility.dart';
@@ -22,7 +23,7 @@ class _MoviesListState extends State<MoviesList> {
   late Image image;
   late DatabaseController databaseController;
   late List<Movie> movies;
-
+  late String imgString;
   TextEditingController movieNameController = new TextEditingController();
   TextEditingController directorNameController = new TextEditingController();
 
@@ -43,18 +44,282 @@ class _MoviesListState extends State<MoviesList> {
     });
   }
 
-  pickImageFromGallery(String title, String director, int id) {
-    ImagePicker().pickImage(source: ImageSource.gallery).then((imgFile) async {
-      String imgString = Utility.base64String(await imgFile!.readAsBytes());
-      Movie movie = Movie(
-          posterPath: imgString, title: title, director: director, id: id);
-      databaseController.insertMovie(movie);
-      refreshImages();
-    });
+//Dialog box for adding images
+
+  Widget contentBox(context) {
+    return Stack(
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.only(
+              left: Constants.padding,
+              top: Constants.avatarRadius + Constants.padding,
+              right: Constants.padding,
+              bottom: Constants.padding),
+          margin: EdgeInsets.only(top: Constants.avatarRadius),
+          decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: Colors.deepPurpleAccent,
+              borderRadius: BorderRadius.circular(Constants.padding),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black,
+                  offset: Offset(2, 2),
+                  blurRadius: 5,
+                ),
+              ]),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    TextFormField(
+                      controller: movieNameController,
+                      decoration: InputDecoration(
+                          hintText: "Movie Name",
+                          hintStyle: TextStyle(color: Colors.white)),
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    TextFormField(
+                      controller: directorNameController,
+                      decoration: InputDecoration(
+                          hintText: "Director Name",
+                          hintStyle: TextStyle(color: Colors.white)),
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    MaterialButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)),
+                      color: Colors.white,
+                      onPressed: () {
+                        pickImageFromGallery();
+                      },
+                      child: Text(
+                        "Pick Image",
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: MaterialButton(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50)),
+                          onPressed: () {
+                            addMovie(
+                              movieNameController.text,
+                              directorNameController.text,
+                              movies.length + 1,
+                            );
+                            setState(() {
+                              movieNameController.text = "";
+                              directorNameController.text = "";
+                            });
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            "Add Movie",
+                            style: TextStyle(fontSize: 15),
+                          )),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          left: Constants.padding,
+          right: Constants.padding,
+          child: CircleAvatar(
+            backgroundColor: Colors.transparent,
+            radius: Constants.avatarRadius,
+            child: ClipRRect(
+              borderRadius:
+                  BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+              child: Icon(
+                Icons.movie,
+                size: 50,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
-  deleteMovieFromGallery() {}
+  Widget editMovieBox(context, int id, String title, String director) {
+    return Stack(
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.only(
+              left: Constants.padding,
+              top: Constants.avatarRadius + Constants.padding,
+              right: Constants.padding,
+              bottom: Constants.padding),
+          margin: EdgeInsets.only(top: Constants.avatarRadius),
+          decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: Colors.deepPurpleAccent,
+              borderRadius: BorderRadius.circular(Constants.padding),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black,
+                  offset: Offset(2, 2),
+                  blurRadius: 5,
+                ),
+              ]),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    TextFormField(
+                      controller: movieNameController,
+                      decoration: InputDecoration(
+                          hintText: "Movie Name",
+                          hintStyle: TextStyle(color: Colors.white)),
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    TextFormField(
+                      controller: directorNameController,
+                      decoration: InputDecoration(
+                          hintText: "Director Name",
+                          hintStyle: TextStyle(color: Colors.white)),
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    MaterialButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)),
+                      color: Colors.white,
+                      onPressed: () {
+                        pickImageFromGallery();
+                      },
+                      child: Text(
+                        "Pick Image",
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: MaterialButton(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50)),
+                          onPressed: () {
+                            editMovie(movieNameController.text,
+                                directorNameController.text, id);
+                            setState(() {
+                              movieNameController.text = "";
+                              directorNameController.text = "";
+                            });
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            "Edit Movie",
+                            style: TextStyle(fontSize: 15),
+                          )),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          left: Constants.padding,
+          right: Constants.padding,
+          child: CircleAvatar(
+            backgroundColor: Colors.transparent,
+            radius: Constants.avatarRadius,
+            child: ClipRRect(
+              borderRadius:
+                  BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+              child: Icon(
+                Icons.movie,
+                size: 50,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
+  String pickImageFromGallery() {
+    ImagePicker().pickImage(source: ImageSource.gallery).then((imgFile) async {
+      imgString = Utility.base64String(await imgFile!.readAsBytes());
+    });
+    return imgString;
+  }
+
+  //Add Movie from Gallery
+  addMovie(String title, String director, int id) {
+    Movie movie =
+        Movie(posterPath: imgString, title: title, director: director, id: id);
+    databaseController.insertMovie(movie);
+    refreshImages();
+  }
+
+  //Delete Movie from Gallery
+
+  deleteMovie(int id) {
+    databaseController.deleteMovie(id);
+    refreshImages();
+  }
+
+  //Edit Movie from Gallery
+
+  editMovie(String title, String director, int id) {
+    Movie movie =
+        Movie(posterPath: imgString, title: title, director: director, id: id);
+    databaseController.updateMovie(movie);
+    refreshImages();
+  }
+
+  void updateMovie(int id, String title, String director) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(Constants.padding),
+            ),
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            child: editMovieBox(context, id, title, director),
+          );
+        });
+  }
 
   gridView() {
     return Padding(
@@ -64,6 +329,8 @@ class _MoviesListState extends State<MoviesList> {
           return MovieListTile(
             context: context,
             movie: movie,
+            editMovie: updateMovie,
+            deleteMovie: deleteMovie,
           );
         }).toList(),
       ),
@@ -81,7 +348,18 @@ class _MoviesListState extends State<MoviesList> {
           IconButton(
             icon: Icon(Icons.add_box),
             onPressed: () {
-              pickImageFromGallery("demo", "Demo Director", movies.length + 1);
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Dialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(Constants.padding),
+                      ),
+                      elevation: 0,
+                      backgroundColor: Colors.transparent,
+                      child: contentBox(context),
+                    );
+                  });
             },
           )
         ],
