@@ -16,9 +16,10 @@ class DatabaseController {
 
   factory DatabaseController() {
     databaseController = DatabaseController._createInstance();
-
     return databaseController;
   }
+
+  
   Future<Database> initializeDatabase() async {
     Directory directory = await getApplicationDocumentsDirectory();
     String path = directory.path + 'movies.db';
@@ -28,9 +29,7 @@ class DatabaseController {
   }
 
   Future<Database> get database async {
-    if (_database == null) {
-      _database = await initializeDatabase();
-    }
+    _database = await initializeDatabase();
     return _database;
   }
 

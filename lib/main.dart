@@ -7,7 +7,12 @@ import 'package:loading_indicator/loading_indicator.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(home: App()));
+  runApp(
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: App(),
+    ),
+  );
 }
 
 class App extends StatefulWidget {
@@ -66,6 +71,6 @@ class _AppState extends State<App> {
       );
     }
 
-    return MoviesListScreen();
+    return MoviesList();
   }
 }
