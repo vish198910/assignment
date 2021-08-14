@@ -5,7 +5,6 @@ import 'package:assignment/models/movie_model.dart';
 import 'package:assignment/utilities/poster_utility.dart';
 import 'package:assignment/widgets/movie_tile_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MoviesList extends StatefulWidget {
@@ -274,6 +273,8 @@ class _MoviesListState extends State<MoviesList> {
       ],
     );
   }
+
+//pick image from gallery
 
   String pickImageFromGallery() {
     ImagePicker().pickImage(source: ImageSource.gallery).then((imgFile) async {
