@@ -34,7 +34,7 @@ class DatabaseController {
 
   void _createDb(Database db, int newVersion) async {
     await db.execute(
-        'CREATE TABLE $movieTable($colId INTEGER AUTOINCREMENT PRIMARY KEY, $colTitle TEXT, '
+        'CREATE TABLE $movieTable($colId INTEGER PRIMARY KEY, $colTitle TEXT, '
         '$coldirector TEXT, $colPosterPath TEXT )');
   }
 
@@ -60,8 +60,8 @@ class DatabaseController {
       colPosterPath: movie.posterPath,
     };
 
-    int result =
-        await db.update(movieTable, row, where: '$colId = ?', whereArgs: [movie.id]);
+    int result = await db
+        .update(movieTable, row, where: '$colId = ?', whereArgs: [movie.id]);
 
     return result;
   }

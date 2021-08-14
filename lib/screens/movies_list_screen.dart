@@ -3,6 +3,8 @@ import 'package:assignment/constants/constants.dart';
 import 'package:assignment/database/dbhelper.dart';
 import 'package:assignment/models/movie_model.dart';
 import 'package:assignment/utilities/poster_utility.dart';
+import 'package:assignment/widgets/add_movie_widget.dart';
+import 'package:assignment/widgets/edit_movie_widget.dart';
 import 'package:assignment/widgets/movie_tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -34,6 +36,7 @@ class _MoviesListState extends State<MoviesList> {
     refreshImages();
   }
 
+  //refresh gallery after CRUD operations
   refreshImages() {
     databaseController.getMovieList().then((imgs) {
       setState(() {
@@ -45,241 +48,46 @@ class _MoviesListState extends State<MoviesList> {
 
 //Dialog box for adding images
 
-  Widget contentBox(context) {
-    return Stack(
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.only(
-              left: Constants.padding,
-              top: Constants.avatarRadius + Constants.padding,
-              right: Constants.padding,
-              bottom: Constants.padding),
-          margin: EdgeInsets.only(top: Constants.avatarRadius),
-          decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Colors.deepPurpleAccent,
-              borderRadius: BorderRadius.circular(Constants.padding),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black,
-                  offset: Offset(2, 2),
-                  blurRadius: 5,
-                ),
-              ]),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    TextFormField(
-                      controller: movieNameController,
-                      decoration: InputDecoration(
-                          hintText: "Movie Name",
-                          hintStyle: TextStyle(color: Colors.white)),
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    TextFormField(
-                      controller: directorNameController,
-                      decoration: InputDecoration(
-                          hintText: "Director Name",
-                          hintStyle: TextStyle(color: Colors.white)),
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    MaterialButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50)),
-                      color: Colors.white,
-                      onPressed: () {
-                        pickImageFromGallery();
-                      },
-                      child: Text(
-                        "Pick Image",
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: MaterialButton(
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50)),
-                          onPressed: () {
-                            addMovie(
-                              movieNameController.text,
-                              directorNameController.text,
-                              movies.length + 1,
-                            );
-                            setState(() {
-                              movieNameController.text = "";
-                              directorNameController.text = "";
-                            });
-                            Navigator.pop(context);
-                          },
-                          child: Text(
-                            "Add Movie",
-                            style: TextStyle(fontSize: 15),
-                          )),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-        Positioned(
-          left: Constants.padding,
-          right: Constants.padding,
-          child: CircleAvatar(
-            backgroundColor: Colors.transparent,
-            radius: Constants.avatarRadius,
-            child: ClipRRect(
-              borderRadius:
-                  BorderRadius.all(Radius.circular(Constants.avatarRadius)),
-              child: Icon(
-                Icons.movie,
-                size: 50,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
-      ],
+  Widget newMovieBox(context) {
+    return NewMovieDialog(
+      movieNameController: movieNameController,
+      directorNameController: directorNameController,
+      addMovie: addMovie,
+      id: movies.length + 1,
+      imgString: '',
+      pickImageFromGallery: pickImageFromGallery,
+      movies: movies,
     );
   }
 
+//Dialog box for editing images
+
   Widget editMovieBox(context, int id, String title, String director) {
-    return Stack(
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.only(
-              left: Constants.padding,
-              top: Constants.avatarRadius + Constants.padding,
-              right: Constants.padding,
-              bottom: Constants.padding),
-          margin: EdgeInsets.only(top: Constants.avatarRadius),
-          decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Colors.deepPurpleAccent,
-              borderRadius: BorderRadius.circular(Constants.padding),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black,
-                  offset: Offset(2, 2),
-                  blurRadius: 5,
-                ),
-              ]),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    TextFormField(
-                      controller: movieNameController,
-                      decoration: InputDecoration(
-                          hintText: "Movie Name",
-                          hintStyle: TextStyle(color: Colors.white)),
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    TextFormField(
-                      controller: directorNameController,
-                      decoration: InputDecoration(
-                          hintText: "Director Name",
-                          hintStyle: TextStyle(color: Colors.white)),
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    MaterialButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50)),
-                      color: Colors.white,
-                      onPressed: () {
-                        pickImageFromGallery();
-                      },
-                      child: Text(
-                        "Pick Image",
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: MaterialButton(
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50)),
-                          onPressed: () {
-                            editMovie(movieNameController.text,
-                                directorNameController.text, id);
-                            setState(() {
-                              movieNameController.text = "";
-                              directorNameController.text = "";
-                            });
-                            Navigator.pop(context);
-                          },
-                          child: Text(
-                            "Edit Movie",
-                            style: TextStyle(fontSize: 15),
-                          )),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-        Positioned(
-          left: Constants.padding,
-          right: Constants.padding,
-          child: CircleAvatar(
-            backgroundColor: Colors.transparent,
-            radius: Constants.avatarRadius,
-            child: ClipRRect(
-              borderRadius:
-                  BorderRadius.all(Radius.circular(Constants.avatarRadius)),
-              child: Icon(
-                Icons.movie,
-                size: 50,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: EditMovieDialog(
+          movieNameController: movieNameController,
+          directorNameController: directorNameController,
+          pickImageFromGallery: pickImageFromGallery,
+          editMovie: editMovie,
+          id: id,
+          imgString: imgString),
     );
   }
 
 //pick image from gallery
 
   String pickImageFromGallery() {
-    ImagePicker().pickImage(source: ImageSource.gallery).then((imgFile) async {
-      imgString = Utility.base64String(await imgFile!.readAsBytes());
-    });
+    try {
+      ImagePicker()
+          .pickImage(source: ImageSource.gallery)
+          .then((imgFile) async {
+        imgString = Utility.base64String(await imgFile!.readAsBytes());
+      });
+    } catch (platformException) {
+      print(platformException);
+    }
+
     return imgString;
   }
 
@@ -293,7 +101,7 @@ class _MoviesListState extends State<MoviesList> {
 
   //Delete Movie from Gallery
 
-  deleteMovie(int id) {
+  deleteMovieFromGallery(int id) {
     databaseController.deleteMovie(id);
     refreshImages();
   }
@@ -307,7 +115,13 @@ class _MoviesListState extends State<MoviesList> {
     refreshImages();
   }
 
-  void updateMovie(int id, String title, String director) async {
+  void updateMovie(
+      int id, String title, String director, String posterPath) async {
+    setState(() {
+      movieNameController.text = title;
+      directorNameController.text = director;
+    });
+
     showDialog(
         context: context,
         builder: (context) {
@@ -331,7 +145,7 @@ class _MoviesListState extends State<MoviesList> {
             context: context,
             movie: movie,
             editMovie: updateMovie,
-            deleteMovie: deleteMovie,
+            deleteMovie: deleteMovieFromGallery,
           );
         }).toList(),
       ),
@@ -358,7 +172,7 @@ class _MoviesListState extends State<MoviesList> {
                       ),
                       elevation: 0,
                       backgroundColor: Colors.transparent,
-                      child: contentBox(context),
+                      child: newMovieBox(context),
                     );
                   });
             },
