@@ -68,17 +68,14 @@ class _MoviesListState extends State<MoviesList> {
 //Dialog box for editing images
 
   Widget editMovieBox(context, String id, String title, String director) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: EditMovieDialog(
-        movieNameController: movieNameController,
-        directorNameController: directorNameController,
-        pickImageFromGallery: pickImageFromGallery,
-        editMovie: editMovie,
-        id: id,
-        imgString: imgString,
-        filename: imgFileName,
-      ),
+    return EditMovieDialog(
+      movieNameController: movieNameController,
+      directorNameController: directorNameController,
+      pickImageFromGallery: pickImageFromGallery,
+      editMovie: editMovie,
+      id: id,
+      imgString: imgString,
+      filename: imgFileName,
     );
   }
 
@@ -140,19 +137,13 @@ class _MoviesListState extends State<MoviesList> {
     setState(() {
       movieNameController.text = title;
       directorNameController.text = director;
+      imgString = posterPath;
     });
 
     showDialog(
         context: context,
         builder: (context) {
-          return Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(Constants.padding),
-            ),
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            child: editMovieBox(context, id, title, director),
-          );
+          return editMovieBox(context, id, title, director);
         });
   }
 
@@ -186,14 +177,7 @@ class _MoviesListState extends State<MoviesList> {
               showDialog(
                 context: context,
                 builder: (context) {
-                  return Dialog(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(Constants.padding),
-                    ),
-                    elevation: 0,
-                    backgroundColor: Colors.transparent,
-                    child: newMovieBox(context),
-                  );
+                  return newMovieBox(context);
                 },
               );
             },
@@ -208,6 +192,7 @@ class _MoviesListState extends State<MoviesList> {
                   builder: (context) {
                     return UserInfoScreen(
                       user: widget.user,
+                      moviesCount: movies.length,
                     );
                   });
             },

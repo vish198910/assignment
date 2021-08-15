@@ -6,12 +6,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UserInfoScreen extends StatefulWidget {
-  const UserInfoScreen({Key? key, required User user})
+  const UserInfoScreen(
+      {Key? key, required User user, required this.moviesCount})
       : _user = user,
         super(key: key);
 
   final User _user;
-
+  final int moviesCount;
   @override
   _UserInfoScreenState createState() => _UserInfoScreenState();
 }
@@ -66,7 +67,28 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Total Movies: ",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        letterSpacing: 2,
+                      )),
+                  Text(
+                    "${widget.moviesCount}",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      letterSpacing: 2,
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(height: 20.0),
               _user.photoURL != null
                   ? ClipOval(
                       child: Material(
