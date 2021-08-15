@@ -1,3 +1,4 @@
+import 'package:assignment/screens/movies_list_screen.dart';
 import 'package:assignment/screens/user_info_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -5,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class Authentication {
-
   static Future<FirebaseApp> initializeFirebase({
     required BuildContext context,
   }) async {
@@ -16,7 +16,7 @@ class Authentication {
     if (user != null) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => UserInfoScreen(
+          builder: (context) => MoviesList(
             user: user,
           ),
         ),
@@ -25,7 +25,7 @@ class Authentication {
 
     return firebaseApp;
   }
-  
+
   static Future<User?> signInWithGoogle({required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
@@ -88,7 +88,7 @@ class Authentication {
     );
   }
 
-   static Future<void> signOut({required BuildContext context}) async {
+  static Future<void> signOut({required BuildContext context}) async {
     try {
       await FirebaseAuth.instance.signOut();
     } catch (e) {
@@ -99,5 +99,4 @@ class Authentication {
       );
     }
   }
- 
 }

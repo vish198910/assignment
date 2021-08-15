@@ -142,16 +142,24 @@ class _MoviesListState extends State<MoviesList> {
   gridView() {
     return Padding(
       padding: EdgeInsets.all(5.0),
-      child: ListView(
-        children: movies.map((movie) {
-          return MovieListTile(
-            context: context,
-            movie: movie,
-            editMovie: updateMovie,
-            deleteMovie: deleteMovieFromGallery,
-          );
-        }).toList(),
-      ),
+      child: movies.length != 0
+          ? ListView(
+              children: movies.map((movie) {
+                return MovieListTile(
+                  context: context,
+                  movie: movie,
+                  editMovie: updateMovie,
+                  deleteMovie: deleteMovieFromGallery,
+                );
+              }).toList(),
+            )
+          : Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  CustomColors.firebaseOrange,
+                ),
+              ),
+            ),
     );
   }
 

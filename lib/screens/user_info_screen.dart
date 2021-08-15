@@ -51,6 +51,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     return Scaffold(
       backgroundColor: CustomColors.firebaseNavy,
       appBar: AppBar(
+        centerTitle: true,
         elevation: 0,
         backgroundColor: CustomColors.firebaseNavy,
         title: AppBarTitle(),
@@ -58,8 +59,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(
-            left: 16.0,
-            right: 16.0,
+            left: 15.0,
+            right: 15.0,
             bottom: 20.0,
           ),
           child: Column(
@@ -110,17 +111,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 '( ${_user.email!} )',
                 style: TextStyle(
                   color: CustomColors.firebaseOrange,
-                  fontSize: 20,
+                  fontSize: 15,
                   letterSpacing: 0.5,
                 ),
-              ),
-              SizedBox(height: 24.0),
-              Text(
-                'You are now signed in using your Google account. To sign out of your account, click the "Sign Out" button below.',
-                style: TextStyle(
-                    color: CustomColors.firebaseGrey.withOpacity(0.8),
-                    fontSize: 14,
-                    letterSpacing: 0.2),
               ),
               SizedBox(height: 16.0),
               _isSigningOut
