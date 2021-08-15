@@ -1,5 +1,5 @@
 import 'package:assignment/auth/auth.dart';
-import 'package:assignment/screens/user_info_screen.dart';
+import 'package:assignment/screens/movies_list_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -43,7 +43,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 if (user != null) {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                      builder: (context) => UserInfoScreen(
+                      builder: (context) => MoviesList(
                         user: user,
                       ),
                     ),
@@ -58,14 +58,14 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                   children: <Widget>[
                     Image(
                       image: AssetImage("assets/google_logo.png"),
-                      height: 35.0,
+                      height: 25.0,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
                         'Sign in with Google',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 15,
                           color: Colors.black54,
                           fontWeight: FontWeight.w600,
                         ),

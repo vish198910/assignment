@@ -23,7 +23,6 @@ class _SignInScreenState extends State<SignInScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Row(),
               Expanded(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -37,19 +36,24 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                     ),
                     SizedBox(height: 20),
-                    Text(
-                      'FlutterFire',
-                      style: TextStyle(
-                        color: CustomColors.firebaseYellow,
-                        fontSize: 40,
-                      ),
-                    ),
-                    Text(
-                      'Authentication',
-                      style: TextStyle(
-                        color: CustomColors.firebaseOrange,
-                        fontSize: 40,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'My',
+                          style: TextStyle(
+                            color: CustomColors.firebaseYellow,
+                            fontSize: 40,
+                          ),
+                        ),
+                        Text(
+                          'Movies',
+                          style: TextStyle(
+                            color: CustomColors.firebaseOrange,
+                            fontSize: 40,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

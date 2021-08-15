@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:assignment/database/dbhelper.dart';
 import 'package:assignment/models/movie_model.dart';
+import 'package:assignment/res/custom_colors.dart';
 import 'package:assignment/utilities/poster_utility.dart';
 import 'package:assignment/widgets/movie_viewer_widget.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,9 @@ class _MovieListTileState extends State<MovieListTile> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2.0,
+      color: CustomColors.firebaseNavy,
+      elevation: 5.0,
+      shadowColor: CustomColors.firebaseNavy,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListTile(
@@ -68,7 +71,7 @@ class _MovieListTileState extends State<MovieListTile> {
                     padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                     child: Icon(
                       Icons.edit,
-                      color: Colors.deepPurpleAccent,
+                      color: CustomColors.firebaseYellow,
                     ),
                   ),
                 ),
@@ -80,7 +83,7 @@ class _MovieListTileState extends State<MovieListTile> {
                     padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                     child: Icon(
                       Icons.delete,
-                      color: Colors.deepPurpleAccent,
+                      color: CustomColors.firebaseAmber,
                     ),
                   ),
                 ),

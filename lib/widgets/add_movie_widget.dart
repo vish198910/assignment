@@ -1,5 +1,6 @@
 import 'package:assignment/constants/constants.dart';
 import 'package:assignment/models/movie_model.dart';
+import 'package:assignment/res/custom_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,8 @@ class NewMovieDialog extends StatefulWidget {
       required this.addMovie,
       required this.id,
       required this.imgString,
-      required this.movies})
+      required this.movies,
+      required this.filename})
       : super(key: key);
 
   final TextEditingController movieNameController;
@@ -22,6 +24,7 @@ class NewMovieDialog extends StatefulWidget {
   String imgString;
   int id;
   List<Movie> movies;
+  String filename;
   @override
   _NewMovieDialogState createState() => _NewMovieDialogState();
 }
@@ -40,7 +43,7 @@ class _NewMovieDialogState extends State<NewMovieDialog> {
           margin: EdgeInsets.only(top: Constants.avatarRadius),
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
-              color: Colors.deepPurpleAccent,
+              color: CustomColors.firebaseNavy,
               borderRadius: BorderRadius.circular(Constants.padding),
               boxShadow: [
                 BoxShadow(
@@ -86,29 +89,34 @@ class _NewMovieDialogState extends State<NewMovieDialog> {
                     MaterialButton(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50)),
-                      color: Colors.white,
+                      color: CustomColors.firebaseAmber,
                       onPressed: () {
                         widget.pickImageFromGallery();
+                        setState(() {});
                       },
                       child: Text(
                         "Pick Image",
                       ),
                     ),
+                    Text(
+                      "${widget.filename}",
+                    ),
                     Align(
                       alignment: Alignment.bottomRight,
                       child: MaterialButton(
-                          color: Colors.white,
+                          color: CustomColors.firebaseOrange,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50)),
                           onPressed: () {
                             widget.addMovie(
                               widget.movieNameController.text,
                               widget.directorNameController.text,
-                              widget.movies.length + 1,
+                              "${DateTime.now().microsecond + DateTime.now().second + DateTime.now().minute + DateTime.now().hour}",
                             );
                             setState(() {
                               widget.movieNameController.text = "";
                               widget.directorNameController.text = "";
+                              widget.filename = "";
                             });
                             Navigator.pop(context);
                           },
