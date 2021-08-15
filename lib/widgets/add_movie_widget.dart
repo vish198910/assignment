@@ -92,6 +92,7 @@ class _NewMovieDialogState extends State<NewMovieDialog> {
                       color: CustomColors.firebaseAmber,
                       onPressed: () {
                         widget.pickImageFromGallery();
+                        setState(() {});
                       },
                       child: Text(
                         "Pick Image",

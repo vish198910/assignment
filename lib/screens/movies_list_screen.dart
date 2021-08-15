@@ -184,22 +184,18 @@ class _MoviesListState extends State<MoviesList> {
             icon: Icon(Icons.add_box),
             onPressed: () {
               showDialog(
-                  context: context,
-                  builder: (context) {
-                    return StatefulBuilder(
-                      builder: (context, setState) {
-                        return Dialog(
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(Constants.padding),
-                          ),
-                          elevation: 0,
-                          backgroundColor: Colors.transparent,
-                          child: newMovieBox(context),
-                        );
-                      },
-                    );
-                  });
+                context: context,
+                builder: (context) {
+                  return Dialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(Constants.padding),
+                    ),
+                    elevation: 0,
+                    backgroundColor: Colors.transparent,
+                    child: newMovieBox(context),
+                  );
+                },
+              );
             },
           ),
           IconButton(
