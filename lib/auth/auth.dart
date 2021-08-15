@@ -65,5 +65,16 @@ class Authentication {
     );
   }
 
+   static Future<void> signOut({required BuildContext context}) async {
+    try {
+      await FirebaseAuth.instance.signOut();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        Authentication.customSnackBar(
+          content: 'Error signing out. Try again.',
+        ),
+      );
+    }
+  }
  
 }
