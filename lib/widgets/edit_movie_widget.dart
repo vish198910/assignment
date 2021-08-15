@@ -11,6 +11,7 @@ class EditMovieDialog extends StatefulWidget {
     required this.editMovie,
     required this.imgString,
     required this.id,
+    required this.filename,
   }) : super(key: key);
 
   final TextEditingController movieNameController;
@@ -18,8 +19,8 @@ class EditMovieDialog extends StatefulWidget {
   final Function pickImageFromGallery;
   final Function editMovie;
   String imgString;
-  int id;
-
+  String id;
+  String filename;
   @override
   _EditMovieDialogState createState() => _EditMovieDialogState();
 }
@@ -92,6 +93,9 @@ class _EditMovieDialogState extends State<EditMovieDialog> {
                         "Pick Image",
                       ),
                     ),
+                    Text(
+                      "${widget.filename}",
+                    ),
                     Align(
                       alignment: Alignment.bottomRight,
                       child: MaterialButton(
@@ -105,6 +109,7 @@ class _EditMovieDialogState extends State<EditMovieDialog> {
                               widget.movieNameController.text = "";
                               widget.directorNameController.text = "";
                               widget.imgString = "";
+                              widget.filename="";
                             });
                             Navigator.pop(context);
                           },

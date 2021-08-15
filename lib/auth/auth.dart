@@ -1,5 +1,4 @@
 import 'package:assignment/screens/movies_list_screen.dart';
-import 'package:assignment/screens/user_info_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

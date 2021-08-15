@@ -12,6 +12,7 @@ class DatabaseController {
   String colTitle = 'title';
   String coldirector = 'director';
   String colPosterPath = 'poster_path';
+  String colFilename = 'filename';
   DatabaseController._createInstance();
 
   factory DatabaseController() {
@@ -34,8 +35,8 @@ class DatabaseController {
 
   void _createDb(Database db, int newVersion) async {
     await db.execute(
-        'CREATE TABLE $movieTable($colId INTEGER PRIMARY KEY, $colTitle TEXT, '
-        '$coldirector TEXT, $colPosterPath TEXT )');
+        'CREATE TABLE $movieTable($colId TEXT PRIMARY KEY, $colTitle TEXT, '
+        '$coldirector TEXT, $colPosterPath TEXT, $colFilename TEXT )');
   }
 
   //this function will return all the movies in the database.
@@ -58,6 +59,7 @@ class DatabaseController {
       colTitle: movie.title,
       coldirector: movie.director,
       colPosterPath: movie.posterPath,
+      colFilename: movie.filename
     };
 
     int result = await db
@@ -67,7 +69,7 @@ class DatabaseController {
   }
 
   // this method will delete a movie
-  Future<int> deleteMovie(int id) async {
+  Future<int> deleteMovie(String id) async {
     var db = await this.database;
     int result =
         await db.rawDelete('DELETE FROM $movieTable WHERE $colId = $id');
@@ -97,7 +99,7 @@ class DatabaseController {
   }
 
   // this function will check if a movies exists in the database.
-  Future<bool> contain(int id) async {
+  Future<bool> contain(String id) async {
     Database db = await this.database;
     List<Map<String, dynamic>> x = await db
         .rawQuery('SELECT COUNT (*) from $movieTable WHERE $colId = $id');

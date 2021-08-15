@@ -13,7 +13,8 @@ class NewMovieDialog extends StatefulWidget {
       required this.addMovie,
       required this.id,
       required this.imgString,
-      required this.movies})
+      required this.movies,
+      required this.filename})
       : super(key: key);
 
   final TextEditingController movieNameController;
@@ -23,6 +24,7 @@ class NewMovieDialog extends StatefulWidget {
   String imgString;
   int id;
   List<Movie> movies;
+  String filename;
   @override
   _NewMovieDialogState createState() => _NewMovieDialogState();
 }
@@ -95,6 +97,9 @@ class _NewMovieDialogState extends State<NewMovieDialog> {
                         "Pick Image",
                       ),
                     ),
+                    Text(
+                      "${widget.filename}",
+                    ),
                     Align(
                       alignment: Alignment.bottomRight,
                       child: MaterialButton(
@@ -105,11 +110,12 @@ class _NewMovieDialogState extends State<NewMovieDialog> {
                             widget.addMovie(
                               widget.movieNameController.text,
                               widget.directorNameController.text,
-                              widget.movies.length + 1,
+                              "${DateTime.now().microsecond + DateTime.now().second + DateTime.now().minute + DateTime.now().hour}",
                             );
                             setState(() {
                               widget.movieNameController.text = "";
                               widget.directorNameController.text = "";
+                              widget.filename = "";
                             });
                             Navigator.pop(context);
                           },

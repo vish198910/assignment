@@ -40,14 +40,14 @@ class _SignInScreenState extends State<SignInScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Movie',
+                          'My',
                           style: TextStyle(
                             color: CustomColors.firebaseYellow,
                             fontSize: 40,
                           ),
                         ),
                         Text(
-                          'Flix',
+                          'Movies',
                           style: TextStyle(
                             color: CustomColors.firebaseOrange,
                             fontSize: 40,
