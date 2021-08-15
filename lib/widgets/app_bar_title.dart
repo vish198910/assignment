@@ -6,26 +6,31 @@ class AppBarTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
       children: [
         Image.asset(
           'assets/firebase_logo.png',
           height: 20,
         ),
         SizedBox(width: 8),
-        Text(
-          'FlutterFire',
-          style: TextStyle(
-            color: CustomColors.firebaseYellow,
-            fontSize: 18,
-          ),
-        ),
-        Text(
-          ' Authentication',
-          style: TextStyle(
-            color: CustomColors.firebaseOrange,
-            fontSize: 18,
-          ),
+        Row(
+          children: [
+            Text(
+              'Profile',
+              style: TextStyle(
+                color: CustomColors.firebaseYellow,
+                fontSize: 18,
+              ),
+            ),
+            Text(
+              'View',
+              style: TextStyle(
+                color: CustomColors.firebaseOrange,
+                fontSize: 18,
+              ),
+            ),
+          ],
         ),
       ],
     );

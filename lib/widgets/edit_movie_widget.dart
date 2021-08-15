@@ -1,4 +1,5 @@
 import 'package:assignment/constants/constants.dart';
+import 'package:assignment/res/custom_colors.dart';
 import 'package:flutter/material.dart';
 
 class EditMovieDialog extends StatefulWidget {
@@ -37,7 +38,7 @@ class _EditMovieDialogState extends State<EditMovieDialog> {
           margin: EdgeInsets.only(top: Constants.avatarRadius),
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
-              color: Colors.deepPurpleAccent,
+              color: CustomColors.firebaseNavy,
               borderRadius: BorderRadius.circular(Constants.padding),
               boxShadow: [
                 BoxShadow(
@@ -83,7 +84,7 @@ class _EditMovieDialogState extends State<EditMovieDialog> {
                     MaterialButton(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50)),
-                      color: Colors.white,
+                      color: CustomColors.firebaseAmber,
                       onPressed: () {
                         widget.pickImageFromGallery();
                       },
@@ -94,7 +95,7 @@ class _EditMovieDialogState extends State<EditMovieDialog> {
                     Align(
                       alignment: Alignment.bottomRight,
                       child: MaterialButton(
-                          color: Colors.white,
+                          color: CustomColors.firebaseOrange,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50)),
                           onPressed: () {

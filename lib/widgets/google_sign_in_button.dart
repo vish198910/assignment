@@ -1,4 +1,5 @@
 import 'package:assignment/auth/auth.dart';
+import 'package:assignment/screens/movies_list_screen.dart';
 import 'package:assignment/screens/user_info_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -43,10 +44,9 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 if (user != null) {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                      builder: (context) => UserInfoScreen(
-                        user: user,
-                      ),
-                    ),
+                        builder: (context) => MoviesList(
+                              user: user,
+                            )),
                   );
                 }
               },

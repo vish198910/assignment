@@ -2,19 +2,22 @@ import 'dart:io';
 import 'package:assignment/constants/constants.dart';
 import 'package:assignment/database/dbhelper.dart';
 import 'package:assignment/models/movie_model.dart';
+import 'package:assignment/res/custom_colors.dart';
+import 'package:assignment/screens/user_info_screen.dart';
 import 'package:assignment/utilities/poster_utility.dart';
 import 'package:assignment/widgets/add_movie_widget.dart';
 import 'package:assignment/widgets/edit_movie_widget.dart';
 import 'package:assignment/widgets/movie_tile_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MoviesList extends StatefulWidget {
   //
-  MoviesList() : super();
+  MoviesList({required this.user}) : super();
 
   final String title = "Movies";
-
+  User user;
   @override
   _MoviesListState createState() => _MoviesListState();
 }
@@ -156,7 +159,7 @@ class _MoviesListState extends State<MoviesList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepPurpleAccent,
+        backgroundColor: CustomColors.firebaseNavy,
         centerTitle: true,
         title: Text(widget.title),
         actions: <Widget>[
@@ -176,17 +179,34 @@ class _MoviesListState extends State<MoviesList> {
                     );
                   });
             },
-          )
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.person,
+            ),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return UserInfoScreen(
+                      user: widget.user,
+                    );
+                  });
+            },
+          ),
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Flexible(
-              child: gridView(),
-            )
-          ],
+      body: Container(
+        color: CustomColors.firebaseYellow,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Flexible(
+                child: gridView(),
+              )
+            ],
+          ),
         ),
       ),
     );

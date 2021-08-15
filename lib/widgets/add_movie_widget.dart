@@ -1,5 +1,6 @@
 import 'package:assignment/constants/constants.dart';
 import 'package:assignment/models/movie_model.dart';
+import 'package:assignment/res/custom_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +41,7 @@ class _NewMovieDialogState extends State<NewMovieDialog> {
           margin: EdgeInsets.only(top: Constants.avatarRadius),
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
-              color: Colors.deepPurpleAccent,
+              color: CustomColors.firebaseNavy,
               borderRadius: BorderRadius.circular(Constants.padding),
               boxShadow: [
                 BoxShadow(
@@ -86,7 +87,7 @@ class _NewMovieDialogState extends State<NewMovieDialog> {
                     MaterialButton(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50)),
-                      color: Colors.white,
+                      color: CustomColors.firebaseAmber,
                       onPressed: () {
                         widget.pickImageFromGallery();
                       },
@@ -97,7 +98,7 @@ class _NewMovieDialogState extends State<NewMovieDialog> {
                     Align(
                       alignment: Alignment.bottomRight,
                       child: MaterialButton(
-                          color: Colors.white,
+                          color: CustomColors.firebaseOrange,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50)),
                           onPressed: () {
